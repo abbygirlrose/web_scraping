@@ -1,0 +1,108 @@
+---
+title: "hw8"
+author: "Abby Bergman"
+date: "11/22/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(gapminder)
+library(geonames)
+library(tibble)
+library(dplyr)
+library(countrycode)
+library(rjson)
+library(rvest)
+library(knitr)
+```
+
+```{r}
+options(geonamesUsername="abbygirlrose")
+options(geonamesHost="api.geonames.org")
+
+source(system.file("tests","testing.R",package="geonames"),echo=TRUE)
+
+
+
+  
+
+```
+
+
+```{r}
+#make mapping function to get all geonames data
+
+
+```
+
+```{r}
+#changing country code
+countryInfo$countryCode <- countrycode(pull(countryInfo,countryCode) , 'iso2c', 'country.name')
+
+value.countryCode
+
+country
+geonames$country <- geonames %>%
+  countrycode(c('USA', 'DZA'), 'iso32c', 'country.name')
+```
+
+
+```{r}
+#part 2
+read_html() #make xml
+
+
+html_nodes()
+
+```
+
+
+```{r}
+
+zagat <- read_html("https://www.zagat.com/search?location_id=219&location_term=Hyde%20Park,%20Chicago")
+
+zagat
+RestaurantName <-zagat%>%
+  html_nodes('.zgt-place-sheet-title')%>%
+  html_text()
+
+
+
+?html_nodes
+
+zagat_table<- data.frame(RestaurantName)
+
+View(zagat_table)
+
+zgt-zagat-price span , .zgt-zagat-rating-label, .zgt-basic-facts-title-text
+
+
+
+col <- html_nodes(zagats, css = ".zgt-basic-facts-title-text")
+html_text(col)
+
+tables <- html_nodes(zagats, css = "table")
+
+tables %>%
+  # get the first table
+  nth(1) %>%
+  # convert to data frame
+  html_table(header = TRUE)
+```
+
+
+```{r}
+water_temp <- read_html("https://www.nodc.noaa.gov/dsdt/cwtg/spac.html")
+
+table <- html_nodes(water_temp, css = "td , #content #content , th")
+
+
+table %>%
+  nth(1)%>%
+  html_table(header = TRUE, fill = TRUE)[[1]]
+```

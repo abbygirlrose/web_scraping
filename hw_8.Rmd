@@ -2,7 +2,7 @@
 title: "hw8"
 author: "Abby Bergman"
 date: "11/22/2018"
-output: Github_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -37,7 +37,7 @@ geonamesinfo <- GNcountryInfo() %>%
 ```
 
 
-```{r, echo = FALSE}
+```{r, include = FALSE, message=FALSE, warning=FALSE}
 #changing country code
 geonamesinfo$country <- countrycode(pull(geonamesinfo,countryCode) , 'iso2c', 'country.name')
 
@@ -50,7 +50,9 @@ combined <- left_join(gapminder, geonamesinfo, by = "country")
 #make popden column
 combined1 <- combined %>%
   mutate(popden = pop/as.numeric(areaInSqKm))
+```
 
+```{r, echo=FALSE}
 #graph to compare popden and lifexp
 
 combined1 %>%

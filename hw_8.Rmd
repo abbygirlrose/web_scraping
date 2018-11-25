@@ -26,9 +26,7 @@ library(ggplot2)
 
 ```{r, include=FALSE}
 #get geonames
-options(geonamesUsername="abbygirlrose")
-options(geonamesHost="api.geonames.org")
-
+username <- getOption("abbygirlrose")
 
 geonamesinfo <- GNcountryInfo() %>%
   as.data.frame()
@@ -37,7 +35,7 @@ geonamesinfo <- GNcountryInfo() %>%
 ```
 
 
-```{r, include = FALSE, message=FALSE, warning=FALSE}
+```{r, include = FALSE, message = FALSE, warning = FALSE}
 #changing country code
 geonamesinfo$country <- countrycode(pull(geonamesinfo,countryCode) , 'iso2c', 'country.name')
 
@@ -52,7 +50,7 @@ combined1 <- combined %>%
   mutate(popden = pop/as.numeric(areaInSqKm))
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
 #graph to compare popden and lifexp
 
 combined1 %>%
@@ -62,7 +60,8 @@ combined1 %>%
   scale_x_log10() +
   labs(title = "Population Density vs Life Expectancy", x = "Population Density", y = "Life Expectancy")
 ```
-As shown above, Life Expectancy appears to increase with Population Density, when plotted on the log scale. 
+
+As shown above, Life Expectancy appears to increase with Population Density, when plotted on the log scale. The correlation between the two variables does not appear to be very strong. 
 
 ```{r}
 #regression model
@@ -70,12 +69,14 @@ density_model <- lm(lifeExp ~ popden,
                    data = combined1)
 summary(density_model)
 ```
-The above regression model shows that there is a relationship between Life Expectancy and Population Density. 
+The above regression model shows that there is a relationship between Life Expectancy and Population Density, with a high level of significance (p < .05). 
 
 
-#part 2: Exploring Water Temperature on the Pacific Coast
+#Part 2: Exploring Water Temperature on the Pacific Coast
 
-```{r}
+For this part of the assignment, I was interested in exploring the average water temperatures occurring along the Southern California coast, throughout the year. The data was retrieved from [here](https://www.nodc.noaa.gov/dsdt/cwtg/all_meanT.html) and includes average temperatures for each beach location for every month. The average temps are calculated over time. 
+
+```{r, echo = FALSE}
 water <- read_html("https://www.nodc.noaa.gov/dsdt/cwtg/all_meanT.html")
 
 water_south <-  html_nodes(water, css = ".reg:nth-child(21)") %>%
@@ -93,15 +94,16 @@ water_clean <- water_south %>%
   mutate(OCT = (OCT1.15 + OCT16.31)/2) %>%
   select(Location, JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC)
 
-water_month <- gather(water_clean, `JAN`, `FEB`, `MAR`, `APR`, `MAY`, `JUN`, `JUL`, `AUG`, `SEP`, `OCT`, `NOV`, `DEC` ,key = month, value = temp) 
+water_month <- gather(water_clean, `JAN`, `FEB`, `MAR`, `APR`, `MAY`, `JUN`, `JUL`, `AUG`, `SEP`, `OCT`, `NOV`, `DEC` ,key = month, value = temp)
 
 water_month %>%
   ggplot(aes(month, temp)) +
-  geom_point() + 
+  geom_boxplot() + 
   labs(title = "Average Water Temp by Month, Southern CA", x = "Month", y = "Average Water Temp")
 ```
 
-```{r}
+The highest average water temperatues occurred in August, followed by September, July and June. The lowest temperatures occurred in January and February. The highest average temperature is in the high 60s (Aug) and the lowest is in the high 50s (Feb). 
+```{r, echo = FALSE}
 water_season <- water_clean %>%
   mutate(Winter = (JAN +FEB +DEC)/3, 
          Spring = (MAR+APR+MAY)/3, 
@@ -114,11 +116,51 @@ water_season %>%
   ggplot(aes(season, temp)) +
   geom_boxplot() + 
   labs(title = "Boxplot of Avg Temperatures per Season", x = "Season", y = "Temperature")
-  
+
+```
+
+The above boxplots shows the average temperatures across all the beach locations for each season. As expected, Summer had the highest average temperatures, although with a large range of temperatures. Winter had the lowest average temperatures. 
+
+```{r, echo = FALSE}
+
+water_season %>%
+  ggplot(aes(Location, temp, color = season)) +
+  geom_point() + 
+  labs(title = "Boxplot of Avg Temperatures per Season", x = "Location", y = "Temperature") +
+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+The above graph shows the four seasonal averages for each location along the OSuthern California coast. For most locations, the highest temperature occurred in the Summer seaosn. However, some locations (ex: Oceanside and Point Mugu) saw higher tesperatures in the Fall. 
+
+```{r, echo = FALSE}
 water_avg <- water_clean %>%
   mutate(Avg = (JAN + FEB + MAR + APR + MAY + JUN + JUL + AUG + SEP + OCT + NOV + DEC)/12) %>%
-  select(Location, Avg)
+  select(Location, Avg) 
+
+water_avg %>%
+  ggplot(aes(Location, Avg)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Average Sea Temperature at each Location", y = "Average Temperature")
+
 ```
+
+This graph plots the average yearly temperature for each location. San Diego saw the highest average sea temperature, while Point Mugu had the lowest average sea temperature.  
+
+
+```{r}
+water_clean %>%
+  filter(Location == "San DiegoBay CA" | Location == "Santa MonicaCA" | Location == "Santa BarbaraCA" | Location == "Los AngelesCA") %>%
+  gather(`JAN`, `FEB`, `MAR`, `APR`, `MAY`, `JUN`, `JUL`, `AUG`, `SEP`, `OCT`, `NOV`, `DEC` ,key = month, value = temp) %>%
+group_by(month) %>%
+  ggplot(aes(month, temp, color = Location)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Average Temperature at 4 Locations", x = "Month", y = "Temperature")
+```
+
+This graph shows the monthly average temperatures for four popular and well-known beach locations along the Southern California coast. The highest temperatures seem to have occurred in July, August, and September across the four beaches, although there is a large amount of variability. 
 
 ```{r}
 temp_model <- lm(temp ~ season, 

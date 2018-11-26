@@ -102,7 +102,9 @@ water_month %>%
   labs(title = "Average Water Temp by Month, Southern CA", x = "Month", y = "Average Water Temp")
 ```
 
-The highest average water temperatues occurred in August, followed by September, July and June. The lowest temperatures occurred in January and February. The highest average temperature is in the high 60s (Aug) and the lowest is in the high 50s (Feb). 
+The highest average water temperatues occurred in August, followed by September, July and June. The lowest temperatures occurred in January and February. The highest average temperature is in the high 60s (Aug) and the lowest is in the high 50s (Feb).
+
+
 ```{r, echo = FALSE}
 water_season <- water_clean %>%
   mutate(Winter = (JAN +FEB +DEC)/3, 

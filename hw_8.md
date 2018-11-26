@@ -46,7 +46,9 @@ For this part of the assignment, I was interested in exploring the average water
 
 ![](hw_8_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-The highest average water temperatues occurred in August, followed by September, July and June. The lowest temperatures occurred in January and February. The highest average temperature is in the high 60s (Aug) and the lowest is in the high 50s (Feb). ![](hw_8_files/figure-markdown_github/unnamed-chunk-7-1.png)
+The highest average water temperatues occurred in August, followed by September, July and June. The lowest temperatures occurred in January and February. The highest average temperature is in the high 60s (Aug) and the lowest is in the high 50s (Feb).
+
+![](hw_8_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 The above boxplots shows the average temperatures across all the beach locations for each season. As expected, Summer had the highest average temperatures, although with a large range of temperatures. Winter had the lowest average temperatures.
 

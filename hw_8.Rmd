@@ -133,7 +133,7 @@ theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
 
-The above graph shows the four seasonal averages for each location along the OSuthern California coast. For most locations, the highest temperature occurred in the Summer seaosn. However, some locations (ex: Oceanside and Point Mugu) saw higher tesperatures in the Fall. 
+The above graph shows the four seasonal averages for each location along the Southern California coast. For most locations, the highest temperature occurred in the Summer seaosn. However, some locations (ex: Oceanside and Point Mugu) saw higher tesperatures in the Fall. 
 
 ```{r, echo = FALSE}
 water_avg <- water_clean %>%
@@ -148,7 +148,7 @@ water_avg %>%
 
 ```
 
-This graph plots the average yearly temperature for each location. San Diego saw the highest average sea temperature, while Point Mugu had the lowest average sea temperature.  
+This graph plots the average yearly temperature for each location. San Diego saw the highest average sea temperature, while Point Mugu had the lowest average sea temperature. All of the average sea temperatures fell between 50 and 70 degrees. To complete a deeper analysis, the data could have included data overtime to look at how yearly average temperatures changed overtime, perhaps to make assertions about climate change. 
 
 
 ```{r}
@@ -164,9 +164,5 @@ group_by(month) %>%
 
 This graph shows the monthly average temperatures for four popular and well-known beach locations along the Southern California coast. The highest temperatures seem to have occurred in July, August, and September across the four beaches, although there is a large amount of variability. 
 
-```{r}
-temp_model <- lm(temp ~ season, 
-                   data = water_season)
-summary(temp_model)
-```
+
 

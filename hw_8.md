@@ -54,11 +54,11 @@ The above boxplots shows the average temperatures across all the beach locations
 
 ![](hw_8_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-The above graph shows the four seasonal averages for each location along the OSuthern California coast. For most locations, the highest temperature occurred in the Summer seaosn. However, some locations (ex: Oceanside and Point Mugu) saw higher tesperatures in the Fall.
+The above graph shows the four seasonal averages for each location along the Southern California coast. For most locations, the highest temperature occurred in the Summer seaosn. However, some locations (ex: Oceanside and Point Mugu) saw higher tesperatures in the Fall.
 
 ![](hw_8_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-This graph plots the average yearly temperature for each location. San Diego saw the highest average sea temperature, while Point Mugu had the lowest average sea temperature.
+This graph plots the average yearly temperature for each location. San Diego saw the highest average sea temperature, while Point Mugu had the lowest average sea temperature. All of the average sea temperatures fell between 50 and 70 degrees. To complete a deeper analysis, the data could have included data overtime to look at how yearly average temperatures changed overtime, perhaps to make assertions about climate change.
 
 ``` r
 water_clean %>%
@@ -74,30 +74,3 @@ group_by(month) %>%
 ![](hw_8_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 This graph shows the monthly average temperatures for four popular and well-known beach locations along the Southern California coast. The highest temperatures seem to have occurred in July, August, and September across the four beaches, although there is a large amount of variability.
-
-``` r
-temp_model <- lm(temp ~ season, 
-                   data = water_season)
-summary(temp_model)
-```
-
-    ## 
-    ## Call:
-    ## lm(formula = temp ~ season, data = water_season)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -5.1053 -1.1250  0.0351  1.4101  5.8947 
-    ## 
-    ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)   63.7982     0.4781 133.430  < 2e-16 ***
-    ## seasonSpring  -4.9211     0.6762  -7.278 3.39e-10 ***
-    ## seasonSummer   0.9737     0.6762   1.440    0.154    
-    ## seasonWinter  -6.0088     0.6762  -8.886 3.40e-13 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 2.084 on 72 degrees of freedom
-    ## Multiple R-squared:  0.6891, Adjusted R-squared:  0.6762 
-    ## F-statistic:  53.2 on 3 and 72 DF,  p-value: < 2.2e-16
